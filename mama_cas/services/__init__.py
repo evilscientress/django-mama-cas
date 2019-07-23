@@ -93,7 +93,7 @@ def get_logout_url(service):
 
 def logout_allowed(service):
     """Check if a given service identifier should be sent a logout request."""
-    if hasattr(settings, 'MAMA_CAS_SERVICES'):
+    if hasattr(settings, 'MAMA_CAS_SERVICES') or hasattr(settings, 'MAMA_CAS_SERVICE_BACKENDS'):
         return _is_allowed('logout_allowed', service)
 
     if hasattr(settings, 'MAMA_CAS_ENABLE_SINGLE_SIGN_OUT'):
@@ -110,7 +110,7 @@ def proxy_allowed(service):
 
 def proxy_callback_allowed(service, pgturl):
     """Check if a given proxy callback is allowed for the given service identifier."""
-    if hasattr(settings, 'MAMA_CAS_SERVICES'):
+    if hasattr(settings, 'MAMA_CAS_SERVICES') or hasattr(settings, 'MAMA_CAS_SERVICE_BACKENDS'):
         return _is_allowed('proxy_callback_allowed', service, pgturl)
     return _is_valid_service_url(service)
 
