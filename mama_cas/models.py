@@ -213,8 +213,13 @@ class ServiceTicketManager(TicketManager):
         If requests-futures is installed, asynchronous requests will
         be sent. Otherwise, synchronous requests will be sent.
         """
+        session_life_time = getattr(settings, 'MAMA_CAS_SINGLE_SIGN_OUT_SESSION_LIFETIME', None)
+        if session_life_time is not None:
+            ticket_consumed_since = now() - timedelta(hours=-int(session_life_time))
+        else:
+            ticket_consumed_since = user.last_login
         session = Session()
-        for ticket in self.filter(user=user, consumed__gte=user.last_login):
+        for ticket in self.filter(user=user, consumed__gte=ticket_consumed_since):
             ticket.request_sign_out(session=session)
 
 

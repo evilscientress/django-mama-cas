@@ -66,6 +66,23 @@ customize behavior and improve security.
       This setting has been deprecated in favor of per-service configuration
       with MAMA_CAS_SERVICES.
 
+.. attribute:: MAMA_CAS_SINGLE_SIGN_OUT_SESSION_LIFETIME
+
+   :default: ``None``
+
+   Session lifetime in hours of the services using the sso server.
+
+   If set, causes single logout requests to be sent to all accessed services
+   within the last x hours when a user logs out. If the setting is not set,
+   the old behaviour is used and single sign out requests are sent for all
+   services that have been accessed since the last login of the user.
+
+   .. warning::
+
+      If the setting is not set the old behaviour is used which might
+      leave out services when the user is logged in multiple times.
+      See `issue #83`_ for details.
+
 .. attribute:: MAMA_CAS_FOLLOW_LOGOUT_URL
 
    :default: ``True``
@@ -199,3 +216,4 @@ customize behavior and improve security.
    template using normal Django template discovery rules.
 
 .. _requests-futures: https://github.com/ross/requests-futures
+.. _issue #83: https://github.com/jbittel/django-mama-cas/issues/83
